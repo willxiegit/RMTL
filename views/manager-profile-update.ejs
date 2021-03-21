@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>RMTL | Manager Update Profile </title>
+		<link rel="icon" href="icon.png">
+		<link rel="stylesheet" href="manager-profile-update.css">
+	</head>
+	<body>
+		<header>
+			<div class="navbar">
+				<div id="logo">
+					<a href="manager-homepage"><img src="RMTL-logo.png"></a>
+				</div>
+				<nav>
+					<ul>
+						<li><a href="manager-homepage">Home</a></li>
+						<li><a href="manager-booking">Bookings</a></li>
+						<li><a href="manager-report-issues">Report Issues</a></li>
+						<li><a class="current" href="manager-profile">Profile</a></li>
+						<li><a href="manager-reports">Reports</a></li>
+						<li><a href="manager-projects">Projects</a></li>
+						<li><a href="manager-users">Users</a></li>
+						<li><a href="manager-email">Emails</a></li>
+						<li><a href="manager-logs">Logs</a></li>
+						<li><a href="manager-equipment">Equipment</a></li>
+						<li>
+							<a>
+								<form action="logout" method="get">
+									<button type="submit" class="logout-btn">Logout</button>
+								</form>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<br>
+		<div class="container">
+		<h1> System Administrator </h1>
+		<div class="row">
+			<div class="column">
+				<label for="username"> Username </label>
+				<p><%= user[0].username %></p>
+				<label for="email"> Email </label>  
+				<p><%= user[0].email %></p>
+				<p>&nbsp</p>
+				<form action="/manager-profile-update" method="post">
+					<label for="newEmail" style="color:#3B83FB"> Change Email </label>
+					<input id="email" name="email" type="text" maxlength="50" placeholder="Enter new email" onkeyup="checkEmail(), checkSubmit()"> 
+					<input id="confirmEmail" type="text" maxlength="50" placeholder="Confirm new email" onkeyup="checkEmail(), checkSubmit()">
+					<p id="emailMatch">&nbsp</p>
+					<label for="newPassword" style="color:#3B83FB"> Change Password </label>
+					<input id="password" name="password" type="password" maxlength="50" placeholder="Enter new password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" onkeyup="checkPassword(), checkSubmit()"> 
+					<input id="confirmPassword" type="password" maxlength="50" placeholder="Confirm new password" onkeyup="checkPassword(), checkSubmit()">
+					<p id="passwordMatch">&nbsp</p>
+					<div id="message" style="display: none;">
+						<div><b>Your password must contain:</b></div>
+						<div id="letter" class="invalid">A <b>lowercase</b> letter</div>
+						<div id="capital" class="invalid">An <b>uppercase</b> letter</div>
+						<div id="number" class="invalid">A <b>number</b></div>
+						<div id="length" class="invalid">Minimum of <b>8 characters</b></div>
+					</div>
+					<button id="submit" type="submit" class="button">Save Changes</button>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
+<script>
+	// validate form before allowing submission
+	function checkSubmit()
+	{
+		if ((document.getElementById("password").value == document.getElementById("confirmPassword").value) &&
+			(document.getElementById("email").value == document.getElementById("confirmEmail").value))
+		{
+			if (!document.getElementById("email").value || validateEmail())
+			{
+				if (!document.getElementById("password").value || validatePW())
+				{
+					document.getElementById("submit").disabled = false;
+				}
+			}
+		}
+		else
+		{
+			document.getElementById("submit").disabled = true;
+		}
+	}
+</script>
+<script>
+	// check if email is of proper format (string@string.string)
+	function validateEmail() 
+    {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(document.getElementById("email").value);
+    }
+</script>
+<script>
+	// check if emails match
+	// error message if they dont match
+	// error message if not in right format
+	function checkEmail()
+	{
+		var email = document.getElementById("email");
+		var confirm = document.getElementById("confirmEmail");
+		var message = document.getElementById("emailMatch")
+		// check fields and change message
+		if (email.value && !validateEmail())
+		{
+			message.style.color = "red";
+			message.innerHTML = "Email format is not valid";
+		}
+		else if (!email.value || !confirm.value)
+		{
+			message.innerHTML = "&nbsp";
+		}
+		else if (email.value == confirm.value)
+		{
+			message.style.color = "green";
+			message.innerHTML = "Emails match";
+		}
+		else 
+		{
+			message.style.color = "red";
+			message.innerHTML = "Emails do not match";
+		}
+	}
+</script>
+<script>
+	// check if passwords match
+	// error message if they dont match
+	// error message if not in right format
+	function checkPassword()
+	{
+		var pw = document.getElementById("password");
+		var confirm = document.getElementById("confirmPassword");
+		var message = document.getElementById("passwordMatch")
+		// check fields and change message
+		if (pw.value && !validatePW())
+		{
+			message.style.color = "red";
+			message.innerHTML = "Password does not meet requirements";
+		}
+		else if (!pw.value || !confirm.value)
+		{
+			message.innerHTML = "&nbsp";
+		}
+		else if (pw.value == confirm.value)
+		{
+			message.style.color = "green";
+			message.innerHTML = "Passwords match";
+		}
+		else 
+		{
+			message.style.color = "red";
+			message.innerHTML = "Passwords do not match";
+		}
+	}
+</script>
+<script>
+	// password requirements box
+	var pw = document.getElementById("password");
+	var letter = document.getElementById("letter");
+	var capital = document.getElementById("capital");
+	var number = document.getElementById("number");
+	var length = document.getElementById("length");
+	var message = document.getElementById("message");
+	
+	// show requirements box when password is being changed
+	pw.onfocus = function()
+	{
+	 		message.style.display = "block";
+	}
+	
+	// hide requirements box when password isnt being changed
+	pw.onblur = function() 
+	{
+		// keep requirements box visible if password not empty
+		if (pw.value)
+		{
+			message.style.display = "block";
+		}
+		else
+		{
+			message.style.display = "none";
+		}	
+	}
+	
+	// check password requirements
+	function validatePW()
+	{
+		var valid = true;
+		// check lowercase
+	  	var lowerCaseLetters = /[a-z]/g;
+		if (pw.value.match(lowerCaseLetters))
+		{  
+			letter.classList.remove("invalid");
+			letter.classList.add("valid");
+		}
+		else
+		{
+			letter.classList.remove("valid");
+			letter.classList.add("invalid");
+			valid = false;
+	  	}
+	  	// check uppercase
+	  	var upperCaseLetters = /[A-Z]/g;
+	  	if (pw.value.match(upperCaseLetters))
+	  	{  
+			capital.classList.remove("invalid");
+			capital.classList.add("valid");
+	  	}
+	  	else
+	  	{
+			capital.classList.remove("valid");
+			capital.classList.add("invalid");
+			valid = false;
+	  	}
+		// check number
+		var numbers = /[0-9]/g;
+		if (pw.value.match(numbers))
+		{  
+			number.classList.remove("invalid");
+			number.classList.add("valid");
+		}
+		else
+		{
+			number.classList.remove("valid");
+			number.classList.add("invalid");
+			valid = false;
+		}
+		// check length
+		if (pw.value.length >= 8)
+		{
+			length.classList.remove("invalid");
+			length.classList.add("valid");
+		}
+		else {
+			length.classList.remove("valid");
+			length.classList.add("invalid");
+			valid = false;
+		}
+		return(valid);
+	}
+</script>

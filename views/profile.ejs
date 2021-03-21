@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>RMTL | Profile </title>
+		<link rel="icon" href="icon.png">
+		<link rel="stylesheet" href="profile.css">
+	</head>
+	<body>
+		<header>
+			<div class="navbar">
+				<div id="logo">
+					<a href="homepage"><img src="RMTL-logo.png"></a>
+				</div>
+				<nav>
+					<ul>
+						<li><a href="homepage">Home</a></li>
+						<li><a href="booking">Bookings</a></li>
+						<li><a href="report-issues">Report Issues</a></li>
+						<li><a class="current" href="profile">Profile</a></li>
+						<li>
+							<a>
+								<form action="logout" method="get">
+									<button type="submit" class="logout-btn">Logout</button>
+								</form>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<br>
+		<div class="container">
+			<h1><%=user[0].firstName%><%=" " + user[0].lastName%></h1>
+			<div class="row">
+				<div class="column">
+					<label for="username"> Username </label>
+					<p><%=user[0].username%></p>
+					<label for="email"> Email </label>
+					<p><%=user[0].email%></p>
+					<label for="password"> Password </label>
+					<p> ********** </p>
+					<p id='message' style="color:red" ><%= message %></p>
+				</div>
+				<div class="column">
+					<label for="training"> Training </label>
+					<select id="training" name="training" class="selectBox" multiple required>
+						<% for (var i = 0; i < training.length; i++) { %>
+						<option><%= training[i].equipmentName %></option>
+						<% } %>
+					</select>
+					<label for="projects"> Projects </label>
+					<select id="projects" name="projects" class="selectBox" multiple required>
+						<% for (var j = 0; j < projects.length; j++) { %>
+						<option><%= projects[j].projectName %></option>
+						<% } %>
+					</select>
+				</div>
+			</div>
+			<a href="profile-verify" class="button"> Edit </a>
+		</div>
+	</body>
+</html>

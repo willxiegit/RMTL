@@ -1,0 +1,96 @@
+
+label { 
+    font-size: 15px;
+    display: block;
+    color: gray;
+    text-align: left;
+    margin-left: 25%;
+}
+
+p {
+    margin-bottom: 40px;
+}
+
+.loginMessage {
+    font-size: 15px;
+    color:red;
+    margin-bottom: 20px;
+}
+
+/* Input forms */ 
+input {
+    border-radius: 8px;
+    width: 50%;
+    padding: 12px 20px;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    display: block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    outline: none; 
+}
+
+/* Highlight colour when selected */ 
+input:focus {
+    background-color: #f0f0f0;
+}
+
+/* Buttons */ 
+.button {
+    border-radius: 8px;
+    background-color: #ff6C6C;
+    color: white;
+    padding: 14px 20px;
+    margin: auto; 
+    border: none;
+    cursor: pointer;
+    width: 50%;
+}
+
+/* Colour when hovered */ 
+button:hover {
+    opacity: 0.8;
+}
+
+.container {
+    padding: 5%;
+    text-align: center;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 25px;
+}
+
+.center { 
+    display: block; 
+    margin: 30px auto;
+}
+
+/* Hyperlinks */ 
+a:link {
+    color: #219BCB;
+    text-decoration: none;
+    font-size: 15px;
+    margin-top: 20px;
+    display: block; 
+    text-align: center; 
+}
+
+/* Hyperlinks that have been previously clicked */ 
+a:visited {
+    color: #219BCB;
+    text-decoration: none;
+    font-size: 15px;
+    margin-top: 20px;
+    display: block; 
+    text-align: center; 
+}
+
+/* Hyperlink colour on hover */ 
+a:hover { 
+    color: blue;
+    text-decoration: none;
+    font-size: 15px;
+    margin-top: 20px;
+    display: block; 
+    text-align: center; 
+}    

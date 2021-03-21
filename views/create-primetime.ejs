@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMTL | Create Primetime </title>
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="create-equipment.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div id="logo">
+                <a href="manager-homepage"><img src="RMTL-logo.png"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="manager-homepage">Home</a></li>
+                    <li><a href="manager-booking">Bookings</a></li>
+                    <li><a href="manager-report-issues">Report Issues</a></li>
+                    <li><a href="manager-profile">Profile</a></li>
+                    <li><a href="manager-reports">Reports</a></li>
+                    <li><a href="manager-projects">Projects</a></li>
+                    <li><a href="manager-users">Users</a></li>
+                    <li><a href="manager-email">Emails</a></li>
+                    <li><a href="manager-logs">Logs</a></li>
+                    <li><a class="current" href="manager-equipment">Equipment</a></li>
+                    <li>
+                        <a>
+                            <form action="logout" method="get">
+                                <button type="submit" class="logout-btn">Logout</button>
+                            </form>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>     
+    </header>
+    <br>
+    <div class="container">
+        <h1>Create Primetime </h1> 
+        <form action="create-primetime" method="post">
+            
+            <label for="equipmentName"> Equipment name </label>
+            <input type="text" class="text-input" name="equipmentName" placeholder="Enter equipment name" value=<%- JSON.stringify(equipment[0]) %> readonly>
+            
+            <div class="row">
+                <div class="column1">
+                    <label for="primetimeStart">Start Time</label>
+                    <input type="time" class="timeInput" name="primetimeStart" required>
+                 </div>
+                <div class="column2">
+                    <label for="primetimeEnd">End Time</label>
+                    <input type="time" class="timeInput" name="primetimeEnd" required>
+                </div>
+            </div>
+
+            <label for="allowConsecutive"> Allow Consecutive Bookings </label>
+            <input type="radio" name="allowConsecutive" value="true" class="inline-radio" required> Yes
+            <input type="radio" name="allowConsecutive" value="false" class="inline-radio" required> No
+            
+            <label for="maxBookingTime"> Maximum Booking Time (in hours) </label>
+            <input type="number" class="text-input" name="maxBookingTime" placeholder="Enter an integer" min="0" required>
+            
+            <label for="enforceSat"> Enforce on Saturday </label>
+            <input type="radio" name="enforceSat" value="true" class="inline-radio" required> Yes
+            <input type="radio" name="enforceSat" value="false" class="inline-radio" required> No
+
+            <label for="enforceSun"> Enforce on Sunday </label>
+            <input type="radio" name="enforceSun" value="true" class="inline-radio" required> Yes
+            <input type="radio" name="enforceSun" value="false" class="inline-radio" required> No
+            <button type="submit" class="button-1" value="submit"> Submit </button>
+        </form>
+    </div>  
+</body>
+</html>

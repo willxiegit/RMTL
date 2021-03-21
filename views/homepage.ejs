@@ -1,0 +1,50 @@
+<!DOCTYPE html>	
+<html lang="en">	
+<head>	
+    <meta charset="UTF-8">	
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">	
+    <title>RMTL | Home</title>	
+    <link rel="icon" href="icon.png">	
+    <link rel="stylesheet" href="homepage.css">	
+</head>	
+<body>	
+    <header>	
+        <div class="navbar">	
+            <div id="logo">	
+                <a href="homepage"><img src="RMTL-logo.png"></a>	
+            </div>	
+            <nav>	
+                <ul>	
+                    <li><a class="current" href="homepage">Home</a></li>	
+                    <li><a href="booking">Bookings</a></li>	
+                    <li><a href="report-issues">Report Issues</a></li>	
+                    <li><a href="profile">Profile</a></li>	
+                    <li>	
+                        <a>	
+                            <form action="logout" method="get">	
+                                <button type="submit" class="logout-btn">Logout</button>	
+                            </form>	
+                        </a>	
+                    </li>	
+                </ul>	
+            </nav>	
+        </div>     	
+    </header>	
+    <br>	
+
+    <div class="container">
+        <div class="news-points">
+            <h2> Announcements </h2> 
+            <ul>
+                <% for (var i = 0; i < data.length; i++) { %>
+                <li>
+                    <b><%= data[i].title %></b>
+                    <p><%= data[i].content %></p>
+                    <p class="date">Posted: <%= data[i].posted %></p>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>  	
+</body>	
+</html> 

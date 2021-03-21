@@ -1,0 +1,186 @@
+body {
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 0;
+    margin: 0;
+}
+
+header {
+    width: 98%;
+    margin: auto;
+    position: relative;
+    border-bottom: 1px solid rgb(175, 175, 175);
+    padding-bottom: 70px;
+}
+
+.navbar {
+    margin-top: 10px;
+}
+
+#logo img {
+    float: left;
+}
+
+nav {
+    float: right;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-align: center;
+}
+
+nav li {
+    display: inline-block;
+}
+
+nav li a {
+    display: block;
+    color: rgb(95, 95, 95);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+nav ul li:hover:not(:last-child) {
+    background-color: #ddd;
+    color: black;  
+}
+
+nav li a.current {
+    background-color: #3B83FB;
+    color: white;
+}
+
+nav li a.current:hover {
+    opacity: 0.8;
+}
+
+.logout-btn {
+    height: 38px;
+    background-color: #3B83FB;
+    border: none;
+    padding: 0 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 8px;
+    margin-top: -10px;
+}
+
+button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.container {
+    position: relative;
+    padding: 1% 3% 3% 3%;
+    margin: 2% 5% 5% 5%;
+    text-align: center;
+    border: 0px; 
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 15px;
+ }
+
+.container ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;  
+    display: inline-block;
+}
+
+.news-points form {
+    float: right;
+    display: inline-block;
+}
+
+input {
+    border-radius: 8px;
+    width: 50%;
+    padding: 12px 12px;
+    margin: auto;
+    margin-top: 5px;
+    display: block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    outline: none; 
+}
+
+.current-password {
+    margin-bottom: 20px;
+}
+
+input:focus {
+    background-color: #f0f0f0;
+}
+
+label { 
+    font-size: 1rem;
+    display: block;
+    color: gray;
+    text-align: left;
+    margin-left: 25%;
+}
+
+button {
+    background-color: #3B83FB;
+    border: none;
+    padding: 0px 20px;
+    color: white;
+    font-size: 18px;
+    border-radius: 8px;
+    margin-top: 25px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    left: 45%;
+    text-decoration: none;
+    text-align: center
+}
+
+.column {
+    display: flex;
+    flex-direction: column; 
+    flex-basis: 100%; 
+    flex: 1;
+}
+
+.row {
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    width: 100%;
+}
+
+p { 
+    text-align: left;
+    margin-left: 25%;
+    margin-top: 0%;
+}
+
+/* The message box is shown when the user clicks on the password field */
+#message {
+    position: relative;
+    padding: 2% 1% 2% 1%;
+    margin: 0% 50% 0% 25%;
+    text-align: center;
+    border: 0px; 
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 15px;
+    font-size: 13px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+    color: green;
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+    color: red;
+}

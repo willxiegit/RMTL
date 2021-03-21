@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMTL | Projects </title>
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="manager-projects.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div id="logo">
+                <a href="manager-homepage"><img src="RMTL-logo.png"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="manager-homepage">Home</a></li>
+                    <li><a href="manager-booking">Bookings</a></li>
+                    <li><a href="manager-report-issues">Report Issues</a></li>
+                    <li><a href="manager-profile">Profile</a></li>
+                    <li><a href="manager-reports">Reports</a></li>
+                    <li><a class="current" href="manager-projects">Projects</a></li>
+                    <li><a href="manager-users">Users</a></li>
+                    <li><a href="manager-email">Emails</a></li>
+                    <li><a href="manager-logs">Logs</a></li>
+                    <li><a href="manager-equipment">Equipment</a></li>
+                    <li>
+                        <a>
+                            <form action="logout" method="get">
+                                <button type="submit" class="logout-btn">Logout</button>
+                            </form>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>     
+    </header>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="column1">
+                <h2>Projects</h2> 
+                <div class="button-container">
+                    <form action="create-project" method="get">
+                        <button type="submit" class="button-1">Create Project</button>
+                    </form>
+                    <button type="submit" class="button-1" name="action" value="edit" form="projectTable"> Edit Project </button>
+                    <button type="submit" class="button-1" name="action" value="delete" form="projectTable"> Delete Project </button>
+                    <br>
+            
+                </div>
+            </div>
+            <div class="column2">
+                <form action="modify-project" method="post" id="projectTable">
+                    <table>
+                        <colgroup>
+                            <col style="width:0.5%">
+                            <col style="width:15%">
+                            <col style="width:10%">
+                            <col style="width:8%">
+                            <col style="width:25%">
+                        </colgroup>
+                        <tr>
+                            <th>Select</th>
+                            <th>Project</th>
+                            <th>Supervisor</th>
+                            <th>Funding Accounts</th>
+                            <th>Description</th>
+                        </tr>
+                        <% for (var i = 0; i < project.length; i++) { %>
+                            <tr>
+                                <td><input type="checkbox" name="select" value=<%- JSON.stringify(project[i].projectName) %>></td>
+                                <td><%= project[i].projectName %></td>
+                                <td>
+                                    <select id="supervisor" name="supervisor" class="selectBox">
+                                        <% for (var j = 0; j < funds.length; j++) { %>
+                                            <% if (funds[j].projectName == project[i].projectName) { %> 
+                                                <% for (var k = 0; k < has.length; k++) { %>
+                                                    <% if (has[k].accountNumber == funds[j].accountNumber) { %>
+                                                        <% for (var l = 0; l < users.length; l++) { %> 
+                                                            <% if (users[l].username == has[k].username) { %>
+                                                                <option><%= users[l].firstName %> <%= users[l].lastName %></option>
+                                                            <% } %> 
+                                                        <% } %>
+                                                    <% } %>
+                                                <% } %>
+                                            <% } %>
+                                        <% } %>    
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="funding" name="funding" class="selectBox">
+                                        <% for (var m = 0; m < funds.length; m++) { %>
+                                            <% if (project[i].projectName == funds[m].projectName) { %>
+                                                <option><%= funds[m].accountNumber %></option>
+                                            <% } %>
+                                        <% } %>
+                                    </select>
+                                </td>
+                                <td><%= project[i].description %></td>
+                            </tr>
+                        <% } %>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>  
+</body>
+</html>

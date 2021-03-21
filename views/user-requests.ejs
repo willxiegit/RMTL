@@ -1,0 +1,98 @@
+<!DOCTYPE html>	
+<html lang="en">	
+<head>	
+    <meta charset="UTF-8">	
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">	
+    <title>RMTL | Booking</title>	
+    <link rel="icon" href="icon.png">	
+    <link rel="stylesheet" type="text/css" href="bookings_styling.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>	
+
+<body>	
+    <header>	
+        <div class="navbar">	
+            <div id="logo">	
+                <a href="homepage"><img src="RMTL-logo.png"></a>	
+            </div>	
+            <nav>	
+                <ul>	
+                    <li><a href="homepage">Home</a></li>	
+                    <li><a class="current" href="booking">Bookings</a></li>	
+                    <li><a href="report-issues">Report Issues</a></li>	
+                    <li><a href="profile">Profile</a></li>	
+                    <li>	
+                        <a>	
+                            <form action="logout" method="get">	
+                                <button type="submit" class="logout-btn">Logout</button>	
+                            </form>	
+                        </a>	
+                    </li>	
+                </ul>	
+            </nav>	
+        </div>     	
+    </header>	
+    <br>	
+
+<button id = "nav_button" onclick= "window.location = '/user-calendar'" style = "background-color: #3B83FB;"> Calendar </button> <br>
+
+<section class = "fade_in">
+    <div id = "bookings">
+      <table id = "bookings_table"> 
+        <thead> <tr> <th>Start (date/time)</th>  <th> Equipment</th>  <th>User</th>  <th>Project</th> <th> Funding </th> <th>Date</th>  <th>Start</th>  
+                     <th>End</th>  <th>Usage Mode </th> <th>Technician</th> <th> Description</th>  <th>Response</th>  </tr> </thead>
+        <tbody id = "equip_list">
+          <% var i = 0; 
+             bookings.forEach(function(booking) { %>
+            <tr> 
+                <td id = "date_time<%= i %>" class = "entry"> <%= booking.startDateTime %></td> 
+                <td class = "entry"> <%= booking.equipmentName %> </td> 
+                <td class = "entry"> <%= booking.username %> </td> 
+                <td class = "entry"> <%= booking.projectName %> </td>
+                <td class = "entry"> <%= booking.accountNumber %> </td>
+                <td id = "date<%= i %>" class = "entry"> <%= booking.bookingDate %> </td> 
+                <td class = "entry"> <%= booking.startTime %> </td> 
+                <td class = "entry"> <%= booking.endTime %> </td> 
+                <td class = "entry"> <%= booking.usageMode %> </td> 
+                <td class = "entry"> 
+                  <% if (booking.requireTechnician == 1) { %> 
+                    Yes
+                  <% } else { %>
+                    No
+                  <% } %>
+                </td> 
+                <td class = "entry"> <%= booking.description %> </td> 
+                  <td><form id = "booking_request" method = "post">
+    
+                    <input type="text" id = "date" name = "date" value="<%= booking.bookingDate %>" style = "display: none">
+                    <input type="text" id = "start_time" name = "start_time" value="<%= booking.startTime %>" style = "display: none">
+                    <input type="text" id = "equipment" name = "equipment" value="<%= booking.equipmentName %>" style = "display: none">
+
+                  </form>
+                </td>
+            </tr>
+        <% i++; }); %>
+      </tbody> </table>
+      <div id = "date_time_index" style = "display: none;"><%= i %></div>
+    </div>
+</section>
+
+<script>
+  var index = parseInt(document.getElementById("date_time_index").innerHTML);
+  for (var i = 0; i < index; i++) {
+    var date_time_id = "date_time" + i;
+    var date_time_split = (document.getElementById(date_time_id).innerHTML).split(" ");
+    var new_date_time = date_time_split[2] + " " +  date_time_split[3] + " " +  date_time_split[4] + " " + date_time_split[5];
+    document.getElementById(date_time_id).innerHTML = new_date_time;
+  }
+
+  for (var i = 0; i < index; i++) {
+    var date_id = "date" + i;
+    var date_split = (document.getElementById(date_id).innerHTML).split(" ");
+    var new_date = date_split[1] + " " +  date_split[2] + " " +  date_split[3];
+    document.getElementById(date_id).innerHTML = new_date;
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMTL | Edit Project </title>
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="create-user.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div id="logo">
+                <a href="manager-homepage"><img src="RMTL-logo.png"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="manager-homepage">Home</a></li>
+                    <li><a href="manager-booking">Bookings</a></li>
+                    <li><a href="manager-report-issues">Report Issues</a></li>
+                    <li><a href="manager-profile">Profile</a></li>
+                    <li><a href="manager-reports">Reports</a></li>
+                    <li><a class="current" href="manager-projects">Projects</a></li>
+                    <li><a href="manager-users">Users</a></li>
+                    <li><a href="manager-email">Emails</a></li>
+                    <li><a href="manager-logs">Logs</a></li>
+                    <li><a href="manager-equipment">Equipment</a></li>
+                    <li>
+                        <a>
+                            <form action="logout" method="get">
+                                <button type="submit" class="logout-btn">Logout</button>
+                            </form>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>     
+    </header>
+    <br>
+    <div class="container">
+        <h1>Edit Project</h1> 
+        <form action="edit-project" method="post">
+            
+            <label for="projectName">Project Name</label>
+            <input type="text" class="text-input" name="projectName" maxlength="50" placeholder="Enter project name" value=<%- JSON.stringify(project[0].projectName) %> readonly>
+        
+            <label for="funding"> Funding Accounts </label>    
+            <select id="funding" name="funding" class="selectBox" multiple required>
+                <% for (var i = 0; i < availableFunding.length; i++) { %>
+                    <% for (var j = 0; j < currentFunding.length; j++) { %>
+                        <% if (currentFunding[j].accountNumber == availableFunding[i].accountNumber) { %>
+                            <option selected="selected"><%= currentFunding[j].accountNumber %></option>
+                        <% } %> 
+                    <% } %>
+
+                    <% if (!(JSON.stringify(currentFunding).includes(availableFunding[i].accountNumber))) { %>
+                        <option><%= availableFunding[i].accountNumber %></option>
+                    <% } %>
+
+                <% } %>
+            </select>
+
+            <label for="description">Description</label> 
+            <input type="text" class="text-input" name="description" maxlength="100" placeholder="Enter project description" value=<%- JSON.stringify(project[0].description) %>>
+            <button type="submit" class="button-1" value="submit"> Submit </button>
+        </form>
+    </div>  
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMTL | Home</title>
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="manager-homepage.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div id="logo">
+                <a href="manager-homepage"><img src="RMTL-logo.png"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a class="current" href="manager-homepage">Home</a></li>
+                    <li><a href="manager-booking">Bookings</a></li>
+                    <li><a href="manager-report-issues">Report Issues</a></li>
+                    <li><a href="manager-profile">Profile</a></li>
+                    <li><a href="manager-reports">Reports</a></li>
+                    <li><a href="manager-projects">Projects</a></li>
+                    <li><a href="manager-users">Users</a></li>
+                    <li><a href="manager-email">Emails</a></li>
+                    <li><a href="manager-logs">Logs</a></li>
+                    <li><a href="manager-equipment">Equipment</a></li>
+                    <li>
+                        <a>
+                            <form action="logout" method="get">
+                                <button type="submit" class="logout-btn">Logout</button>
+                            </form>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>     
+    </header>
+    <br>
+    <div class="container">
+        <h2> Announcements </h2> 
+        <div class="news-points">
+            <form action="delete-announcement" method="post" id="announcements">
+                <ul>
+                    <% for (var i = 0; i < data.length; i++) { %>
+                    <li>
+                        <input type="checkbox" name="select" value=<%- data[i].id %>>
+                        <b><%= data[i].title %></b>
+                        <p><%= data[i].content %></p>
+                        <p class="date">Posted: <%= data[i].posted %></p>
+                    </li>
+                    <% } %>
+                </ul>
+                <p></p>
+                <button type="submit" class="delete-button" form="announcements">Delete</button>
+            </form>
+        </div>
+        
+     
+        <div class="add-point">
+            <form action="add-announcement" method="post">
+                <input type="text" class="text-input" name="title" placeholder="Enter announcement title" maxlength="50">
+                <textarea name="body" class="text-input" rows="5" placeholder="Enter announcement body" maxlength="500"></textarea>
+                <p></p>
+                <button type="submit" class="post-button">Post</button>
+            </form>
+           
+        </div>
+    </div>  
+</body>
+</html>

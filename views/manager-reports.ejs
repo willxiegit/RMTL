@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>RMTL | Manager Reports </title>
+		<link rel="icon" href="icon.png">
+		<link rel="stylesheet" href="manager-reports.css">
+	</head>
+	<body>
+		<header>
+			<div class="navbar">
+				<div id="logo">
+					<a href="manager-homepage"><img src="RMTL-logo.png"></a>
+				</div>
+				<nav>
+					<ul>
+						<li><a href="manager-homepage">Home</a></li>
+						<li><a href="manager-booking">Bookings</a></li>
+						<li><a href="manager-report-issues">Report Issues</a></li>
+						<li><a href="manager-profile">Profile</a></li>
+						<li><a class="current" href="manager-reports">Reports</a></li>
+						<li><a href="manager-projects">Projects</a></li>
+						<li><a href="manager-users">Users</a></li>
+						<li><a href="manager-email">Emails</a></li>
+						<li><a href="manager-logs">Logs</a></li>
+						<li><a href="manager-equipment">Equipment</a></li>
+						<li>
+							<a>
+								<form action="logout" method="get">
+									<button type="submit" class="logout-btn">Logout</button>
+								</form>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<br>
+		<div class="container">
+			<h1 style="text-align: center;"> Reported Issues </h1>
+			<form action="generate-maintenance" method="get">
+				<button class="downloadButton" type="submit" name="button">Download Reports</button>
+			</form>
+			<label class="PendingLabel" for="pending"><b>Pending Approval</b></label>
+			<form action="modify-pending" method="post" id="pendingTable">
+				<div class="tableBox">
+					<table>
+						<thead>
+							<tr>
+								<col width="20">
+								<th> Select </th>
+								<th> Equipment </th>
+								<th> User </th>
+								<th> Date </th>
+								<th> Description </th>
+								<th> Urgency </th>
+							</tr>
+						</thead>
+						<% for (var i = 0; i < pending.length; i++) { %>
+						<tr>
+							<td><input type="checkbox" name="select[]" value=<%- JSON.stringify(pending[i].equipmentName+"$"+pending[i].submitted.toJSON()) %>></td>
+							<td><%= pending[i].equipmentName %></td>
+							<td><%= pending[i].user %></td>
+							<td><%= pending[i].submitted.toLocaleString() %></td>
+							<td><%= pending[i].description %></td>
+							<td value=<%= pending[i].urgency %>><b><%= pending[i].urgency %></b></td>
+						</tr>
+						<% } %>
+					</table>
+				</div>
+				<button type="submit" class="buttonDelete" name="button" value="delete"><b>DELETE</b></button>
+				<button type="submit" class="buttonProgress" name="button" value="progress">Confirmed</button>
+				<button type="submit" class="buttonResolved" name="button" value="resolved">Resolved</button>
+			</form>
+			<label class="ProgressLabel" for="progress"><b>Fix in Progress</b></label>
+			<div overflow-y:auto>
+				<form action="modify-progress" method="post" id="progressTable">
+					<div class="tableBox">
+						<table>
+							<tr>
+								<col width="20">
+								<th> Select </th>
+								<th> Equipment </th>
+								<th> User </th>
+								<th> Date </th>
+								<th> Description </th>
+								<th> Urgency </th>
+							</tr>
+							<% for (var i = 0; i < progress.length; i++) { %>
+							<tr>
+								<td><input type="checkbox" name="select[]" value=<%- JSON.stringify(progress[i].equipmentName+"$"+progress[i].submitted.toJSON()) %>></td>
+								<td><%= progress[i].equipmentName %></td>
+								<td><%= progress[i].user %></td>
+								<td><%= progress[i].submitted.toLocaleString() %></td>
+								<td><%= progress[i].description %></td>
+								<td value=<%= progress[i].urgency %>><b><%= progress[i].urgency %></b></td>
+							</tr>
+							<% } %>
+						</table>
+					</div>
+					<button type="submit" class="buttonDelete" name="button" value="delete"><b>DELETE</b></button>
+					<button type="submit" class="buttonResolved" name="button" value="resolved">Resolved</button>
+					<button type="submit" class="buttonPending" name="button" value="pending">Pending</button>
+				</form>
+			</div>
+			<label class="ResolvedLabel" for="resolved"><b>Resolved Issues</b></label>
+			<div overflow-y:auto>
+				<form action="modify-resolved" method="post" id="resolvedTable">
+					<div class="tableBox">
+						<table>
+							<tr>
+								<col width="20">
+								<th> Select </th>
+								<th> Equipment </th>
+								<th> User </th>
+								<th> Date </th>
+								<th> Description </th>
+								<th> Urgency </th>
+							</tr>
+							<% for (var i = 0; i < resolved.length; i++) { %>
+							<tr>
+								<td><input type="checkbox" name="select[]" value=<%- JSON.stringify(resolved[i].equipmentName+"$"+resolved[i].submitted.toJSON()) %>></td>
+								<td><%= resolved[i].equipmentName %></td>
+								<td><%= resolved[i].user %></td>
+								<td><%= resolved[i].submitted.toLocaleString() %></td>
+								<td><%= resolved[i].description %></td>
+								<td value=<%= resolved[i].urgency %>><b><%= resolved[i].urgency %></b></td>
+							</tr>
+							<% } %>
+						</table>
+					</div>
+					<button type="submit" class="buttonDelete" name="button" value="delete"><b>DELETE</b></button>
+					<button type="submit" class="buttonProgress" name="button" value="progress">Confirmed</button>
+					<button type="submit" class="buttonPending" name="button" value="pending">Pending</button>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+
+<html>
+    <head>
+    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="icon" href="icon.png">
+    <title>RMTL | Login</title> 
+    </head>
+
+    <body>
+        <div class="container"> 
+            <img src="RMTL-big-logo-new.png" alt="rmtl_big_logo" class="center">
+            <p> Forging the way for nuclear materials research </p>
+            <form action="auth" method="post">
+                <div class="label"> 
+                    <label for="username"> Username </label> 
+                </div> 
+                <input type="text" placeholder="Username" name="username" required>
+                <div class="label">
+                    <label for="password"> Password </label>
+                </div>
+                <input type="password" placeholder="Password" name="password" required>
+                <p class="loginMessage"><%= message %></p>
+                <button type="submit" class="button" value="submit">Login</button>
+            </form>
+            <a href="forgot-credentials"> Forgot credentials </a> 
+            <a href="request-account"> Request an account </a> 
+        </div>
+    </body>
+</html>

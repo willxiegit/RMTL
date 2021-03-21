@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMTL | Request Account </title>
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="request-account.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div id="logo">
+                <a href="login"><img src="RMTL-logo.png"></a>
+            </div>
+        </div>     
+    </header>
+    <br>
+    
+    <div class="container">
+        <h1> Request an account </h1> 
+        <p> Fill out the form and we'll send you an email with your account information. </p>
+        
+        <form action="request-account" method="post">
+            <div class="label" id="label">
+                <label for="email"> Email </label>
+            </div>
+            <input type="text" placeholder="Enter email" name="email" required>
+            <div class="label" id="label">
+                <label for="fname"> First name </label>
+            </div>
+            <input type="text" placeholder="Enter first name" name="fname" required>
+            <div class="label" id="label">
+                <label for="lname"> Last name </label>
+            </div>
+            <input type="text" placeholder="Enter last name" name="lname" required>
+            <button type="submit" class="button"> Submit </button> 
+        </form>
+    </div>  
+</body>
+</html>

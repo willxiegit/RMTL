@@ -1,0 +1,173 @@
+body {
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  padding: 0;
+  margin: 0;
+}
+
+/* Navigation Bar */
+header {
+  width: 98%;
+  margin: auto;
+  position: relative;
+  border-bottom: 1px solid rgb(175, 175, 175);
+  padding-bottom: 70px;
+}
+
+.navbar {
+  margin-top: 10px;
+  
+}
+
+#logo img {
+  float: left;
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  text-align: center;
+}
+
+nav li {
+  display: inline-block;
+}
+
+nav li a {
+  display: block;
+  color: rgb(95, 95, 95);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+nav ul li:hover:not(:last-child){
+  background-color: #ddd;
+  color: black;  
+}
+
+nav li a.current {
+  background-color: #3B83FB;
+  color: white;
+}
+
+nav li a.current:hover {
+  opacity: 0.8;
+}
+
+.logout-btn {
+  height: 38px;
+  background-color: #3B83FB;
+  border: none;
+  padding: 0 20px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 8px;
+  margin-top: -10px;
+}
+
+.logout-btn:hover
+{
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+section { 
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    justify-content: center; /*space-around; */
+    align-items: normal;
+    padding-top: 25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 15px;
+    padding: 1% 3% 3% 3%;
+    margin: 2% 5% 5% 5%;
+  }
+  
+  /*-----------------------------------------------SEARCH FORM STYLING------------------------------------------------------*/
+
+  form {
+    font-family: Roboto, Arial, sans-serif;
+  }
+
+  .form_button {
+    background-color: #3B83FB;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 8px 8px;
+    text-align: center;
+    font-size: 16px;
+    font-family: Roboto, Arial, sans-serif;
+    margin: 2px 0px;
+    cursor: pointer;
+  }
+
+  /* ----------------------------------------------BOOKINGS TABLE STYLING---------------------------------------------------*/
+
+  #bookings_table {
+    font-family: Roboto, Arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0px; 
+    text-align: center;
+  }
+  
+  .entry {
+    padding: 8px;
+    color: rgb(77, 77, 77);
+  }
+  
+  #bookings_table tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #bookings_table tr:hover {background-color: #ddd;}
+  
+  #bookings_table th {
+    padding-top: 12px 0px 0px 12px;
+    text-align: center;
+    background-color: #3B83FB;
+    color: white;
+    padding: 8px;
+  }
+
+  #nav_button {
+    background-color: #3B83FB;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: Roboto, Arial, sans-serif;
+    padding: 10px 25px;
+    margin: 25px 0px 0px 25px;
+    cursor: pointer;
+  }
+
+  .column1 {
+    float: left;
+    width: 10%;
+  }
+
+  .column2 {
+      float: right;
+      width: 90%;
+      text-align: left;
+      margin-top: 0.5%; 
+  }
+
+  .row:after {
+      content: "";
+      display: table;
+      clear: both;
+  }

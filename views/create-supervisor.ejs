@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMTL | Create Supervisor </title>
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="create-user.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div id="logo">
+                <a href="manager-homepage"><img src="RMTL-logo.png"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="manager-homepage">Home</a></li>
+                    <li><a href="manager-booking">Bookings</a></li>
+                    <li><a href="manager-report-issues">Report Issues</a></li>
+                    <li><a href="manager-profile">Profile</a></li>
+                    <li><a href="manager-reports">Reports</a></li>
+                    <li><a href="manager-projects">Projects</a></li>
+                    <li><a class="current" href="manager-users">Users</a></li>
+                    <li><a href="manager-email">Emails</a></li>
+                    <li><a href="manager-logs">Logs</a></li>
+                    <li><a href="manager-equipment">Equipment</a></li>
+                    <li>
+                        <a>
+                            <form action="logout" method="get">
+                                <button type="submit" class="logout-btn">Logout</button>
+                            </form>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>     
+    </header>
+    <br>
+    <div class="container">
+        
+        <h1>Create Supervisor</h1> 
+        
+        <form action="create-supervisor" method="post">
+            <label for="firstname">First name</label>
+            <input type="text" class="text-input" name="firstname" placeholder="Enter First name" value=<%= results[0].firstName %> readonly>
+        
+            <label for="lastname">Last name</label> 
+            <input type="text" class="text-input" name="lastname" placeholder="Enter Last name" value=<%= results[0].lastName %> readonly>
+
+            <label for="username"> Username </label>
+            <input type="text" class="text-input" name="username" placeholder="Enter username" value=<%= results[0].username %> readonly>
+
+            <label for="fundingAccounts"> Funding Accounts </label>
+            <textarea rows="3" columns="25" name="fundingAccounts" placeholder="Enter funding account numbers (separated by commas)"></textarea>
+        
+            <button type="submit" class="button-1" value="submit"> Submit </button>
+        </form>
+    </div>  
+</body>
+</html>

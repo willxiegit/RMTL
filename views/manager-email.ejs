@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMTL | Email </title>
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="manager-email.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div id="logo">
+                <a href="manager-homepage"><img src="RMTL-logo.png"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="manager-homepage">Home</a></li>
+                    <li><a href="manager-booking">Bookings</a></li>
+                    <li><a href="manager-report-issues">Report Issues</a></li>
+                    <li><a href="manager-profile">Profile</a></li>
+                    <li><a href="manager-reports">Reports</a></li>
+                    <li><a href="manager-projects">Projects</a></li>
+                    <li><a href="manager-users">Users</a></li>
+                    <li><a class="current" href="manager-email">Emails</a></li>
+                    <li><a href="manager-logs">Logs</a></li>
+                    <li><a href="manager-equipment">Equipment</a></li>
+                    <li>
+                        <a>
+                            <form action="logout" method="get">
+                                <button type="submit" class="logout-btn">Logout</button>
+                            </form>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>     
+    </header>
+    <br>
+    <div class="container">
+        <h2 style="text-align: center;">Email</h2>
+        <p style="color: green; text-align: center;"> <%= message %> </p>
+        <form action="manager-email" method="post">
+            <textarea name="recipients" rows="1" cols="50" placeholder="Recipients (separated by commas)" class="oneLineTextArea"></textarea>
+            <label for="equipment" style="color:#3B83FB"> Training Groups </label>
+            <div class="tableBox">
+                <table>
+                    <% for (var i = 0; i < training.length; i++) { %>
+                    <tr>
+                        <td class="boxCell"><input type="checkbox" name="group[]" value=<%- JSON.stringify(training[i].groupName) %>></td>
+                        <td><%= training[i].groupName %></td>
+                    </tr>
+                    <% } %>
+                </table>
+            </div>
+            <label for="equipment" style="color:#3B83FB"> Projects </label>
+            <div class="tableBox">
+                <table>
+                    <% for (var j = 0; j < project.length; j++) { %>
+                    <tr>
+                        <td class="boxCell"><input type="checkbox" name="project[]" value=<%- JSON.stringify(project[j].projectName) %>></td>
+                        <td><%= project[j].projectName %></td>
+                    </tr>
+                    <% } %>
+                </table>
+            </div>
+            <textarea name="cc" rows="1" cols="50" placeholder="CC (separated by commas)" class="oneLineTextArea"></textarea>
+            <textarea name="subject" type="text" placeholder="Subject" maxlength="50" rows="1" cols="50" class="oneLineTextArea" required></textarea>
+            <textarea name="message" rows="10" cols="50" placeholder="Message" class="messageBox" required></textarea>
+            <button type="submit" class="button-1" value="submit"> Send </button>
+        </form>
+    </div>  
+    <script src="rmtl.js"></script>
+</body>
+</html>

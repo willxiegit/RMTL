@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>RMTL | Manager Profile </title>
+		<link rel="icon" href="icon.png">
+		<link rel="stylesheet" href="manager-profile.css">
+	</head>
+	<body>
+		<header>
+			<div class="navbar">
+				<div id="logo">
+					<a href="manager-homepage"><img src="RMTL-logo.png"></a>
+				</div>
+				<nav>
+					<ul>
+						<li><a href="manager-homepage">Home</a></li>
+						<li><a href="manager-booking">Bookings</a></li>
+						<li><a href="manager-report-issues">Report Issues</a></li>
+						<li><a class="current" href="manager-profile">Profile</a></li>
+						<li><a href="manager-reports">Reports</a></li>
+						<li><a href="manager-projects">Projects</a></li>
+						<li><a href="manager-users">Users</a></li>
+						<li><a href="manager-email">Emails</a></li>
+						<li><a href="manager-logs">Logs</a></li>
+						<li><a href="manager-equipment">Equipment</a></li>
+						<li>
+							<a>
+								<form action="logout" method="get">
+									<button type="submit" class="logout-btn">Logout</button>
+								</form>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<br>
+		<div class="container">
+			<form action="view-profile" method="get">
+				<h1> System Administrator </h1>
+				<div class="row">
+					<div class="column">
+						<label for="username"> Username </label>
+						<p><%=user[0].username%></p>
+						<label for="email"> Email </label>
+						<p><%=user[0].email%></p>
+						<label for="password"> Password </label>
+						<p> ********** </p>
+						<p id='message' style="color:red" ><%= message %></p>
+					</div>
+				</div>
+			</form>
+			<a href="manager-profile-verify" class="button"> Edit </a>
+		</div>
+	</body>
+</html>

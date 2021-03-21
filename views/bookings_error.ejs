@@ -1,0 +1,49 @@
+<!DOCTYPE html> <html lang="en">
+
+<head>
+    <title>RMTL | Booking</title>	
+    <link rel="icon" href="icon.png">	
+  <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="calendar_styling.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <header>
+      <div class="navbar">
+          <div id="logo">
+              <a href="manager-homepage"><img src="RMTL-logo.png"></a>
+          </div>
+          <nav>
+              <ul>
+                  <li><a href="manager-homepage">Home</a></li>
+                  <li><a class="current" href="manager-booking">Bookings</a></li>
+                  <li><a href="manager-report-issues">Report Issues</a></li>
+                  <li><a href="manager-profile">Profile</a></li>
+                  <li><a href="manager-reports">Reports</a></li>
+                  <li><a href="manager-projects">Projects</a></li>
+                  <li><a href="manager-users">Users</a></li>
+                  <li><a href="manager-email">Emails</a></li>
+                  <li><a href="manager-logs">Logs</a></li>
+                  <li><a href="manager-equipment">Equipment</a></li>
+                  <li>
+                      <a>
+                          <form action="logout" method="get">
+                              <button type="submit" class="logout-btn">Logout</button>
+                          </form>
+                      </a>
+                  </li>
+              </ul>
+          </nav>
+      </div>     
+  </header>
+<br>
+<br>
+
+<div id = "confirmation_page">
+    <div id = "confirmation"> Your booking could not be made.</div> <br>
+    <button id = "confirm_nav_button" onclick= "window.location = '/manager-calendar'" style = "background-color: #3B83FB;"> Back to Calendar</button> 
+</section>
+
+</body>
+</html>

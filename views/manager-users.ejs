@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMTL | Users </title>
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="manager-users.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div id="logo">
+                <a href="manager-homepage"><img src="RMTL-logo.png"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="manager-homepage">Home</a></li>
+                    <li><a href="manager-booking">Bookings</a></li>
+                    <li><a href="manager-report-issues">Report Issues</a></li>
+                    <li><a href="manager-profile">Profile</a></li>
+                    <li><a href="manager-reports">Reports</a></li>
+                    <li><a href="manager-projects">Projects</a></li>
+                    <li><a class="current" href="manager-users">Users</a></li>
+                    <li><a href="manager-email">Emails</a></li>
+                    <li><a href="manager-logs">Logs</a></li>
+                    <li><a href="manager-equipment">Equipment</a></li>
+                    <li>
+                        <a>
+                            <form action="logout" method="get">
+                                <button type="submit" class="logout-btn">Logout</button>
+                            </form>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>     
+    </header>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="column1">
+                <h2>Users</h2> 
+                <div class="button-container">
+                    <form action="create-user" method="get">
+                        <button type="submit" class="button-1">Create User</button>
+                    </form>
+                    <button type="submit" class="button-1" name="action" value="edit" form="userTable"> Edit User </button>
+                    <button type="submit" class="button-1" name="action" value="delete" form="userTable"> Delete User </button>
+                    <br>
+                    <button type="submit" class="button-1" name="action" value="create-supervisor" form="userTable">Create Supervisor</button> 
+                    <button type="submit" class="button-1" name="action" value="edit-supervisor" form="supervisorTable">Edit Supervisor</button> 
+                    <button type="submit" class="button-1" name="action" value="delete-supervisor" form="supervisorTable">Delete Supervisor</button> 
+                
+                    
+                   
+                    <br>
+                    <form action="manager-groups" method="get">
+                        <button type="submit" class="button-1">User Groups</button>
+                    </form>
+                </div>
+            </div>
+            <div class="column2">
+                <form action="modify-user" method="post" id="userTable">
+                    <b> Users </b>
+
+                    <table>
+                        <colgroup>
+                            <col style="width:0.5%">
+                            <col style="width:10%">
+                            <col style="width:10%">
+                            <col style="width:10%">
+                            <col style="width:10%">
+                            <col style="width:10%">
+                            <col style="width:10%">
+                        </colgroup>
+                        <tr>
+                            <col width="20">
+                            <th> Select </th>
+                            <th> First Name </th>
+                            <th> Last Name </th>
+                            <th> Username </th>
+                            <th> Email </th>
+                            <th> Training </th>
+                            <th> Project </th>
+                        </tr>
+                        <% for (var i = 0; i < users.length; i++) { %>
+                            <tr> 
+                                <td><input type="checkbox" name="select" value=<%= users[i].username %>></td>
+                                <td><%= users[i].firstName %></td>
+                                <td><%= users[i].lastName %></td>
+                                <td><%= users[i].username %></td>
+                                <td><%= users[i].email %></td>
+                                <td>
+                                    <select>
+                                        <% for (var j = 0; j < training.length; j++) { %>
+                                            <% if (training[j].username == users[i].username) { %>
+                                                <option><%= training[j].groupName; %></option>
+
+                                            <% } %>
+                                        <% } %>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select>
+                                        <% for (var k = 0; k < projects.length; k++) { %>
+                                            <% if (projects[k].username == users[i].username) { %>
+                                                <option><%= projects[k].projectName; %></option>
+
+                                            <% } %>
+                                        <% } %>
+                                    </select>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </table>
+                </form>
+                <br>
+                <br>
+                <form action="modify-supervisor" method="post" id="supervisorTable">
+                    <b> Supervisors </b>
+                    <table>
+                        <colgroup>
+                            <col style="width:0.5%">
+                            <col style="width:10%">
+                            <col style="width:10%">
+                            <col style="width:10%">
+                            <col style="width:10%">
+                        
+                        </colgroup>
+                        <tr>
+                            <col width="20">
+                            <th>Select</th>
+                            <th>First name</th>
+                            <th>Last name</th>
+                            <th>Username</th>
+                            <th>Funding Accounts </th>
+                        </tr>
+                        <% for (var l = 0; l < supervisors.length; l++) { %>
+                            <tr>
+                                <td><input type="checkbox" name="select" value=<%= supervisors[l].username %>></td>
+                                <% for (var m = 0; m < users.length; m++) { %>
+                                    <% if (users[m].username == supervisors[l].username) { %>
+                                        <td><%= users[m].firstName %></td>
+                                        <td><%= users[m].lastName %></td>
+                                    <% } %>
+                                <% } %>
+                            
+                                <td><%= supervisors[l].username %></td>
+                                <td>
+                                    <select>
+                                        <% for (var n = 0; n < fundingAccounts.length; n++) { %>
+                                            <% if (fundingAccounts[n].username == supervisors[l].username) { %>
+                                                <option><%= fundingAccounts[n].accountNumber %></option>
+                                            <% } %>
+                                        <% } %>
+                                    </select>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>  
+</body>
+</html>

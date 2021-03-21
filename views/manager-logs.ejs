@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>RMTL | Manager Logs </title>
+		<link rel="icon" href="icon.png">
+		<link rel="stylesheet" href="manager-logs.css">
+	</head>
+	<body>
+		<header>
+			<div class="navbar">
+				<div id="logo">
+					<a href="manager-homepage"><img src="RMTL-logo.png"></a>
+				</div>
+				<nav>
+					<ul>
+						<li><a href="manager-homepage">Home</a></li>
+						<li><a href="manager-booking">Bookings</a></li>
+						<li><a href="manager-report-issues">Report Issues</a></li>
+						<li><a href="manager-profile">Profile</a></li>
+						<li><a href="manager-reports">Reports</a></li>
+						<li><a href="manager-projects">Projects</a></li>
+						<li><a href="manager-users">Users</a></li>
+						<li><a href="manager-email">Emails</a></li>
+						<li><a class="current" href="manager-logs">Logs</a></li>
+						<li><a href="manager-equipment">Equipment</a></li>
+						<li>
+							<a>
+								<form action="logout" method="get">
+									<button type="submit" class="logout-btn">Logout</button>
+								</form>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<br>
+		<div class="container">
+		<h1> System Logs </h1>
+		<div class="row">
+			<div class="column">
+				<form action="/manager-logs" method="post">
+					<label for="equipment" style="color:#3B83FB"> Equipment </label>
+					<div class="tableBox">
+						<table>
+							<% for (var i = 0; i < equipment.length; i++) { %>
+							<tr>
+								<td class="boxCell"><input type="checkbox" name="equipment[]" value=<%- JSON.stringify(equipment[i].equipmentName) %>></td>
+								<td><%= equipment[i].equipmentName %></td>
+							</tr>
+							<% } %>
+						</table>
+					</div>
+					<label for="project" style="color:#3B83FB"> Project </label>
+					<div class="tableBox">
+						<table>
+							<% for (var i = 0; i < projects.length; i++) { %>
+							<tr>
+								<td class="boxCell"><input type="checkbox" name="projects[]" value=<%- JSON.stringify(projects[i].projectName) %>></td>
+								<td><%= projects[i].projectName %></td>
+							</tr>
+							<% } %>
+						</table>
+					</div>
+					<label for="funding" style="color:#3B83FB"> Funding </label>
+					<div class="tableBox">
+						<table>
+							<% for (var i = 0; i < funding.length; i++) { %>
+							<tr>
+								<td class="boxCell"><input type="checkbox" name="funding[]" value=<%- JSON.stringify(funding[i].accountNumber) %>></td>
+								<td><%= funding[i].accountNumber %></td>
+							</tr>
+							<% } %>
+						</table>
+					</div>
+					<label style="color:#3B83FB"> Booked </label>
+					<p> (Leaving date blank assumes min/max. Leaving both blank generates report for all dates.) </p>
+					<label for="after" > After </label>
+					<input class="inputDate" type="date" name="after" min="2000-01-01" max="<%= date.toISOString().split("T")[0] %>">
+					<label for="before" > Before </label>
+					<input class="inputDate" type="date" name="before" min="2000-01-01" max="<%= date.toISOString().split("T")[0] %>">
+					<button id="submit" type="submit" class="button">Generate Report</button>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

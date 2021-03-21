@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMTL | Edit Equipment </title>
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="create-equipment.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div id="logo">
+                <a href="manager-homepage"><img src="RMTL-logo.png"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="manager-homepage">Home</a></li>
+                    <li><a href="manager-booking">Bookings</a></li>
+                    <li><a href="manager-report-issues">Report Issues</a></li>
+                    <li><a href="manager-profile">Profile</a></li>
+                    <li><a href="manager-reports">Reports</a></li>
+                    <li><a href="manager-projects">Projects</a></li>
+                    <li><a href="manager-users">Users</a></li>
+                    <li><a href="manager-email">Emails</a></li>
+                    <li><a href="manager-logs">Logs</a></li>
+                    <li><a class="current" href="manager-equipment">Equipment</a></li>
+                    <li>
+                        <a>
+                            <form action="logout" method="get">
+                                <button type="submit" class="logout-btn">Logout</button>
+                            </form>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>     
+    </header>
+    <br>
+    <div class="container">
+        <h1>Edit Equipment </h1> 
+        <form action="edit-equipment" method="post">
+            <label for="equipmentName">Equipment name</label>
+            <input type="text" class="text-input" name="equipmentName" placeholder="Enter equipment name" maxlength="50" value=<%- JSON.stringify(equipment[0].equipmentName) %> readonly>
+
+            <label for="location">Location</label> 
+            <input type="text" class="text-input" name="location" placeholder="Enter location" maxlength="50" value=<%= equipment[0].location %> required>
+           
+            <label for="usageModes"> Usage Modes </label>
+            <textarea name="usageModes" rows="5" columns="50" placeholder="Enter usage modes (separated by commas)" required><%= options %></textarea> 
+
+            <label for="sensitivity"> Sensitive Equipment </label>     
+            <% if (equipment[0].enableSensitive == 1) { %>     
+                <input type="radio" name="sensitivity" value="true" class="inline-radio" checked="checked" required> Yes
+                <input type="radio" name="sensitivity" value="false" class="inline-radio" required> No
+            <% } else { %>
+                <input type="radio" name="sensitivity" value="true" class="inline-radio" required> Yes
+                <input type="radio" name="sensitivity" value="false" class="inline-radio" checked="checked" required> No
+            <% } %> 
+           
+            <label for="consecutive"> Allow Consecutive Bookings </label>
+            <% if (equipment[0].allowConsecutive == 1) { %>
+                <input type="radio" name="consecutive" value="true" class="inline-radio" checked="checked" required> Yes
+                <input type="radio" name="consecutive" value="false" class="inline-radio" required> No
+            <% } else { %>
+                <input type="radio" name="consecutive" value="true" class="inline-radio" required> Yes
+                <input type="radio" name="consecutive" value="false" class="inline-radio" checked="checked" required> No
+            <% } %>
+           
+            <label for="maxBookings"> Maximum Number of Bookings (per week) </label>
+            <input type="number" class="text-input" name="maxBookings" placeholder="Enter an integer" min="0" value=<%= equipment[0].maxBookingsWeekly %> required>
+           
+            <label for="maxTime"> Maximum Time per Booking (in hours) </label>
+            <input type="number" class="text-input" name="maxTime" placeholder="Enter an integer" min="0" value=<%= equipment[0].maxBookingTime %> required>
+            
+            <label for="primetime"> Enable Primetime Restrictions </label>
+            <% if (equipment[0].enablePrimetime == 1) { %>
+                <input type="radio" name="primetime" value="true" class="inline-radio" checked="checked" required> Yes
+                <input type="radio" name="primetime" value="false" class="inline-radio" required> No
+            <% } else { %> 
+                <input type="radio" name="primetime" value="true" class="inline-radio" required> Yes
+                <input type="radio" name="primetime" value="false" class="inline-radio" checked="checked" required> No
+            <% } %>
+
+            <button type="submit" class="button-1" value="submit"> Submit </button>
+        </form>
+    </div>  
+</body>
+</html>

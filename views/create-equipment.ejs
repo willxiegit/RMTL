@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMTL | Create Equipment </title>
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="create-equipment.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div id="logo">
+                <a href="manager-homepage"><img src="RMTL-logo.png"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="manager-homepage">Home</a></li>
+                    <li><a href="manager-booking">Bookings</a></li>
+                    <li><a href="manager-report-issues">Report Issues</a></li>
+                    <li><a href="manager-profile">Profile</a></li>
+                    <li><a href="manager-reports">Reports</a></li>
+                    <li><a href="manager-projects">Projects</a></li>
+                    <li><a href="manager-users">Users</a></li>
+                    <li><a href="manager-email">Emails</a></li>
+                    <li><a href="manager-logs">Logs</a></li>
+                    <li><a class="current" href="manager-equipment">Equipment</a></li>
+                    <li>
+                        <a>
+                            <form action="logout" method="get">
+                                <button type="submit" class="logout-btn">Logout</button>
+                            </form>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>     
+    </header>
+    <br>
+    <div class="container">
+        <h1>Create Equipment </h1> 
+        <form action="create-equipment" method="post">
+            <label for="equipmentName">Equipment name</label>
+            <input type="text" class="text-input" name="equipmentName" placeholder="Enter equipment name" maxlength="50" required>
+           
+            <label for="location">Location</label> 
+            <input type="text" class="text-input" name="location" placeholder="Enter location" maxlength="50" required>
+           
+            <label for="usageModes"> Usage Modes </label>
+            <textarea name="usageModes" rows="5" columns="50" placeholder="Enter usage modes (separated by commas)" required></textarea> 
+
+            <label for="sensitivity"> Sensitive Equipment </label>          
+            <input type="radio" name="sensitivity" value="true" class="inline-radio" required> Yes
+            <input type="radio" name="sensitivity" value="false" class="inline-radio" required> No
+           
+            <label for="consecutive"> Allow Consecutive Bookings </label>
+            <input type="radio" name="consecutive" value="true" class="inline-radio" required> Yes
+            <input type="radio" name="consecutive" value="false" class="inline-radio" required> No
+           
+            <label for="maxBookings"> Maximum Number of Bookings (per week) </label>
+            <input type="number" class="text-input" name="maxBookings" min="0" placeholder="Enter an integer" required>
+           
+            <label for="maxTime"> Maximum Time per Booking (in hours) </label>
+            <input type="number" class="text-input" name="maxTime" min="0" placeholder="Enter an integer" required>
+            
+            <label for="primetime"> Enable Primetime Restrictions </label>
+            <input type="radio" name="primetime" value="true" class="inline-radio" required> Yes
+            <input type="radio" name="primetime" value="false" class="inline-radio" required> No
+            <button type="submit" class="button-1" value="submit"> Submit </button>
+        </form>
+    </div>  
+</body>
+</html>

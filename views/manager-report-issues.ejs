@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>RMTL | Manager Report Issues </title>
+		<link rel="icon" href="icon.png">
+		<link rel="stylesheet" href="manager-report-issues.css">
+	</head>
+	<body>
+		<header>
+			<div class="navbar">
+				<div id="logo">
+					<a href="manager-homepage"><img src="RMTL-logo.png"></a>
+				</div>
+				<nav>
+					<ul>
+						<li><a href="manager-homepage">Home</a></li>
+						<li><a href="manager-booking">Bookings</a></li>
+						<li><a class="current" href="manager-report-issues">Report Issues</a></li>
+						<li><a href="manager-profile">Profile</a></li>
+						<li><a href="manager-reports">Reports</a></li>
+						<li><a href="manager-projects">Projects</a></li>
+						<li><a href="manager-users">Users</a></li>
+						<li><a href="manager-email">Emails</a></li>
+						<li><a href="manager-logs">Logs</a></li>
+						<li><a href="manager-equipment">Equipment</a></li>
+						<li>
+							<a>
+								<form action="logout" method="get">
+									<button type="submit" class="logout-btn">Logout</button>
+								</form>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<br>
+		<div class="container">
+		<h1 style="text-align: center;"> Report an Issue </h1>
+		<label class="bigLabel"> New Report </label>
+		<div class="innerContainer">
+			<form action="/manager-report-issues" method="post">
+				<label style="color:#3B83FB"> Select Equipment </label>
+				<select id="equipment" name="equipment" class="selectBox" required>
+					<option value="" disabled selected>Select equipment</option>
+					<% for (var i = 0; i < equipment.length; i++) { %>
+					<option><%= equipment[i].equipmentName %></option>
+					<% } %>
+				</select>
+				<label style="color:#3B83FB"> Select Urgency </label>
+				<table class="urgencyTable">
+					<tr>
+						<td>
+							<p>
+								<input class="radio" type="radio" name="urgency" value="Low" required>Low
+							</p>
+						</td>
+						<td>
+							<p>
+								<input class="radio" type="radio" name="urgency" value="Medium" required>Medium
+							</p>
+						</td>
+						<td>
+							<p>
+								<input class="radio" type="radio" name="urgency" value="High" required>High
+							</p>
+						</td>
+					</tr>
+				</table>
+				<label style="color:#3B83FB"> Describe the problem </label>
+				<input name="description" maxlength="100" placeholder="Enter description" required></input>
+				<p></p>
+				<button id="submit" type="submit" class="button">Report</button>
+			</form>
+		</div>
+		<label class="bigLabel" for="past">Past Reports</label>
+		<div class="tableBox">
+			<table>
+				<thead>
+					<tr>
+						<col width="20">
+						<th> Equipment </th>
+						<th> Date </th>
+						<th> Description </th>
+						<th> Urgency </th>
+						<th> Status </th>
+					</tr>
+				</thead>
+				<% for (var i = 0; i < past.length; i++) { %>
+				<tr>
+					<td><%= past[i].equipmentName %></td>
+					<td><%= past[i].submitted.toLocaleString() %></td>
+					<td><%= past[i].description %></td>
+					<td value=<%= past[i].urgency %>><b><%= past[i].urgency %></b></td>
+					<td value=<%= past[i].activity %>><b><%= past[i].activity %></b></td>
+				</tr>
+				<% } %>
+			</table>
+		</div>
+	</body>
+</html>

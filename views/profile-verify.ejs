@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>RMTL | Verify Profile </title>
+		<link rel="icon" href="icon.png">
+		<link rel="stylesheet" href="profile-verify.css">
+	</head>
+	<body>
+		<header>
+			<div class="navbar">
+				<div id="logo">
+					<a href="homepage"><img src="RMTL-logo.png"></a>
+				</div>
+				<nav>
+					<ul>
+						<li><a href="homepage">Home</a></li>
+						<li><a href="booking">Bookings</a></li>
+						<li><a href="report-issues">Report Issues</a></li>
+						<li><a class="current" href="profile">Profile</a></li>
+						<li>
+							<a>
+								<form action="logout" method="get">
+									<button type="submit" class="logout-btn">Logout</button>
+								</form>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<br>
+		<br>
+		<div class="container">
+		<h1><%=user[0].firstName%><%=" " + user[0].lastName%></h1>
+		<div class="row">
+			<div class="column">
+				<form action="/profile-verify" method="post">
+					<div class="label">
+						<label for="password"> Please verify your password </label>
+					</div>
+					<input type="password" placeholder="Password" name="password" maxlength="50" required>
+					<p id='message' style="color:red" ><%= message %></p>
+					<button type="submit" class="button" value="submit">Verify</button>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

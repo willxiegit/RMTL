@@ -1,0 +1,624 @@
+<!-- views/calendar.ejs -->
+
+<!DOCTYPE html> <html lang="en">
+<head>
+  <title>RMTL | Booking </title>
+  <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="calendar_styling.css" />
+  <script type="text/javascript" src='create_calendar.js'> </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <header>
+      <div class="navbar">
+          <div id="logo">
+              <a href="manager-homepage"><img src="RMTL-logo.png"></a>
+          </div>
+          <nav>
+              <ul>
+                  <li><a href="manager-homepage">Home</a></li>
+                  <li><a class="current" href="manager-booking">Bookings</a></li>
+                  <li><a href="manager-report-issues">Report Issues</a></li>
+                  <li><a href="manager-profile">Profile</a></li>
+                  <li><a href="manager-reports">Reports</a></li>
+                  <li><a href="manager-projects">Projects</a></li>
+                  <li><a href="manager-users">Users</a></li>
+                  <li><a href="manager-email">Emails</a></li>
+                  <li><a href="manager-logs">Logs</a></li>
+                  <li><a href="manager-equipment">Equipment</a></li>
+                  <li>
+                      <a>
+                          <form action="logout" method="get">
+                              <button type="submit" class="logout-btn">Logout</button>
+                          </form>
+                      </a>
+                  </li>
+              </ul>
+          </nav>
+      </div>     
+  </header>
+<br>
+
+<section class = "fade_in">
+  <div id = "equipment">
+    <button id = "nav_button" onclick= "window.location = '/manager_requests'" style = "background-color: #3B83FB;"> Requests </button> <br>
+    <button id = "nav_button" onclick= "window.location = '/manager-booking'"> Bookings </button>  
+
+    <div id = "invisible_fields" style = "display: none;">
+        <div id = "calendar_parameters">
+          <div id = "calendar_month"> <%= page_data.month %> </div>
+          <div id = "calendar_year">  <%= page_data.year %> </div>
+          <div id = "calendar_day">  <%= page_data.day %> </div>
+          <div id = "new_equipment_name"> <%= page_data.equipment_name %> </div>
+          <div id = "new_date"> <%= page_data.booking_date %>  </div>
+        </div>
+
+        <div id = "results">
+          <% var i = 0;
+          bookings.forEach(function(booking) { var id = i; %>
+            <option id = "<%= id %>" > <%= booking.startDateTime %> <%= booking.startTime %> <%= booking.endTime %> <%= booking.pending %> </option>
+          <% i++; }); %>
+          <div id = "index"><%= i %></div>
+        </div>
+
+        <form id = "schedule_parameters" method="post" action="/update_schedule"> <fieldset>
+          <input type="text" name = "query_booking_date"   id = "query_booking_date"   value = "<%= page_data.booking_date %>">
+          <input type="text" name = "query_equipment_name" id = "query_equipment_name" value = "<%= page_data.equipment_name %> ">
+          <input type="submit" value="Submit">
+        </fieldset> </form>
+    </div>
+
+    <table id = "equip_list_table"> <tbody id = "equip_list">
+      <% var i = 1; 
+      equipments.forEach(function(equipment) { var id = "Equipment " + i; %>
+        <tr> <td id = "<%= equipment.equipmentName %>" class = "equip_list_data" onclick = "display_selected_equipment(this.id)"> <%= equipment.equipmentName %></td> </tr>
+      <% i++;}); %>
+    </tbody> </table>
+
+    <script>  
+      function display_selected_equipment(id) {
+        equipment_to_book = document.getElementById("equipment_to_book"); 
+        equipment_to_book.innerHTML = id;
+        booking_date = document.getElementById("booking_date");
+        document.getElementById("query_equipment_name").value = equipment_to_book.innerHTML;
+        document.getElementById("schedule_parameters").submit(); // Show the schedule for the newly clicked day
+      } 
+    </script>
+  </div>
+  
+  <div id = "calendar_container">
+   
+    <div id = "calendar_header">
+      <button id = "month_change_button" onclick = "prev_month()"> < </button>
+      <div    id = "month_display" class = "date"> Month </div> <div id = "year_display" class = "date"> Year </div>
+      <button id = "month_change_button" onclick = "next_month()"> > </button>
+    </div><br>
+    <table id = 'table_calendar'>
+      <thead> <tr><th>SUN</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr> </thead>
+      <tbody id = calendar_body> </tbody>
+    </table>
+
+    <script>
+      //var date = new Date();
+
+      // Display the next month if the "next month" button is pressed
+      function next_month() {
+        var current_year = parseInt(document.getElementById("calendar_year").innerHTML);
+        var current_month = parseInt(document.getElementById("calendar_month").innerHTML);
+
+        current_month = (current_month + 1) % 12;
+        if (current_month == 0)
+          current_year++;
+          
+        document.getElementById("calendar_year").innerHTML = current_year;
+        document.getElementById("calendar_month").innerHTML = current_month;
+        create_calendar(current_year, current_month);
+        $("#calendar_container").fadeOut(1);
+        $("#calendar_container").slideDown("slow");
+      } // end next_month method
+
+      // Display the previous month if the "previous month" button is pressed
+      function prev_month() {
+        var current_year = parseInt(document.getElementById("calendar_year").innerHTML);
+        var current_month = parseInt(document.getElementById("calendar_month").innerHTML);
+        current_month = current_month - 1;
+        if (current_month == -1) {
+          current_month = 11;
+          current_year--;
+        }
+        document.getElementById("calendar_year").innerHTML = current_year;
+        document.getElementById("calendar_month").innerHTML = current_month;
+        create_calendar(current_year, current_month);
+        $("#calendar_container").fadeOut(1);
+        $("#calendar_container").slideDown("slow");
+      } // end prev_month method
+
+      // Function to create the calendar depending on the date
+      function create_calendar(year, month) {
+        var date = new Date(year, month);
+        var int_month = date.getMonth();
+        var year = date.getFullYear();
+        
+        var month_dict = {0 : "January", 1 : "February", 2 : "March", 3 : "April", 4 : "May", 5 : "June", 6 : "July", 7 : "August", 
+                          8 : "September", 9 : "October", 10 : "November", 11 : "December"};
+
+        // Create month and year string to display above calendar
+        var string_month = month_dict[int_month];
+        var display_month = document.getElementById("month_display"); 
+        display_month.innerHTML = string_month;
+        var display_year = document.getElementById("year_display"); 
+        display_year.innerHTML = year;
+
+        // Now we begin creating the calendar...
+        calendar = document.getElementById("calendar_body");
+        calendar.innerHTML = "";   // Empty the old calendar content
+        var num_days_in_month = (32 - new Date(date.getFullYear(), date.getMonth(), 32).getDate()) + 2;
+        var starting_day = new Date(date.getFullYear(), date.getMonth()).getDay();  // Day of the week that the first date is on
+        var date_to_write = 1;     // The date that will be written in the current cell in each iteration
+        var i; var j;
+        var stop = false;
+
+        // Create calendar: outer-loop iterates through the weeks of the month, inner-loop iterates through each day of current week
+        for(i = 0; i < 6; i++) {
+          var week = document.createElement("tr");
+          for (j = 0; j < 7; j++) {
+            if (i == 0 && j < starting_day) {              // Leave the date blank if the month hasn't started yet
+              cell = document.createElement("td");
+              cell_data = document.createTextNode("");
+              cell.appendChild(cell_data);
+              week.appendChild(cell);
+              cell.classList.add("calendar_data");
+              continue;  // Jump to the next date
+            } if (date_to_write == num_days_in_month - 1 && j == 7) {      // Stop writing if we reached the last day of the month 
+              stop = true;                                                 // and the last day is a Sunday
+              break;
+            } else if (date_to_write == num_days_in_month - 1 && j < 7 ) { // Stop writing if we have reached the last day in the month
+              stop = true;                                                 // and the last day is not a Sunday (fill in the rest of the 
+              cell = document.createElement("td");                         // last week with empty cells
+              cell_data = document.createTextNode("");
+              cell.appendChild(cell_data);
+              week.appendChild(cell);
+              cell.classList.add("calendar_data");
+              cell.id = "calendar_data";
+              continue;  // Jump to the next date
+            }
+            cell = document.createElement("td");           // Write the date into the current calendar cell
+            cell_data = document.createTextNode(date_to_write);
+            cell.appendChild(cell_data); 
+            week.appendChild(cell);
+            cell.classList.add("colored_hover");           // Add hover color to each cell
+            cell.classList.add("calendar_data");
+
+            // When a day on the calendar is clicked on, it is highlighted, and the schedule displays the date of the clicked day
+            var display_selected_date = function(cell) {
+              return function() {
+                // Display the selected date on the schedule
+                booking_year = document.getElementById("year_display"); 
+                booking_month = document.getElementById("month_display"); 
+                month_dict_reversed = {"January" : 0, "February" : 1, "March" : 2, "April" : 3, "May" : 4, "June" : 5, "July" : 6, "August" : 7 ,
+                          "September" : 8,  "October" : 9, "November" : 10,"December" : 11};
+                booking_date = document.getElementById("booking_date"); 
+                booking_date.innerHTML = booking_year.innerHTML + "-" + (month_dict_reversed[booking_month.innerHTML] + 1) + "-" + cell.innerHTML;
+
+                /*
+                // Highlight the newly selected day in the calendar (and un-highlight the previously selected day)
+                var elems = document.querySelectorAll(".current_date"); 
+                [].forEach.call(elems, function(el) {         // Get the previously highlighted date
+                    el.classList.remove("current_date");      // Remove highlight from previous date
+                });
+                cell.classList.add("current_date");           // Highlight the new date */
+                //equipment_to_book = document.getElementById("equipment_to_book"); 
+                document.getElementById("query_booking_date").value = booking_date.innerHTML;
+                //document.getElementById("overlay_booking_date").innerHTML = booking_date.innerHTML;
+                document.getElementById("date_for_booking").value = booking_date.innerHTML;
+                document.getElementById("schedule_parameters").submit(); // Show the schedule for the newly clicked day
+              };
+            };
+            cell.onclick = display_selected_date(cell);
+
+            var calendar_year = document.getElementById("calendar_year");
+            var calendar_month = document.getElementById("calendar_month");
+            var calendar_day = document.getElementById("calendar_day");
+
+            if (date_to_write == calendar_day && int_month == calendar_month && year == calendar_year) 
+              cell.classList.add("current_date");      
+          
+            date_to_write++;
+          } // End inner-loop
+          calendar.appendChild(week);
+          if (stop) 
+            break;
+        } // End outer-loop
+      } // End create_calendar function */
+
+      var current_year  = document.getElementById("calendar_year").innerHTML;
+      var current_month = document.getElementById("calendar_month").innerHTML;
+
+      create_calendar(current_year, current_month);
+  
+      // Display an overlay to book equipment if the "Book Equipment" button is pressed
+      function overlay_on()  {document.getElementById("overlay").style.display = "block";}
+      function overlay_off() {document.getElementById("overlay").style.display = "none"; }
+    </script>
+    <button id = "button" onclick = "overlay_on()">Book Equipment</button>  
+  </div>
+
+  <div class = "schedule_container">
+    <div id = "schedule_header">
+      <div id = "booking_date"      class = "booking_date_style"> <%= page_data.booking_date %>   </div>
+      <div id = "equipment_to_book" class = "booking_date_style"> <%= page_data.equipment_name %> </div>
+    </div>
+
+    <div id = "schedule">
+      <table> <tbody id = "sched_body1"> </tbody> </table>
+      <table> <tbody id = "sched_body2"> </tbody> </table>
+      <table> <tbody id = "sched_body3"> </tbody> </table>
+      <table> <tbody id = "sched_body4"> </tbody> </table>
+
+      <script> // Creates the schedule for the corresponding piece of equipment for the currently selected day
+      
+        function create_schedule(start) {
+          var table_counter = 1;
+          var table_body = "sched_body" + table_counter;
+          schedule = document.getElementById(table_body); 
+          schedule.innerHTML = "";
+          var i; var j;
+          var hour = start;
+          var minute = ":00";
+          var start_times = [];
+          var end_times = [];
+          var pending = [];
+          index = document.getElementById("index").innerHTML;
+
+          for (var i = 0; i < index; i++) {
+            booking = document.getElementById(i).innerHTML;
+            booking_split = booking.split(" ");
+            start_times.push(booking_split[10].replace(/^[0]+/g,"").slice(0, -3));
+            end_times.push(booking_split[11].replace(/^[0]+/g,"").slice(0,-3));
+            pending.push(booking_split[12]);
+          } // end
+
+
+          var booking_index = 0;
+          var writing_booking = false;
+          var writing_pending_booking = false;
+
+          for (i = 0; i < 48; i++) {
+            if (i > 0 && (i % 12) == 0) {
+              table_counter++;
+              table_body = "sched_body" + table_counter;
+              schedule = document.getElementById(table_body);
+              schedule.innerHTML = "";
+            } 
+            var time = hour + minute;
+            var sched_row = document.createElement("tr");
+            // Create the cell that displays the time
+            cell1 = document.createElement("td");
+            cell1_data = document.createTextNode(time);
+            cell1.appendChild(cell1_data);
+            cell1.classList.add("schedule_data");  
+            sched_row.appendChild(cell1);
+            // Create the cell that displays if the current time is vacant or not (green or red)
+            cell2 = document.createElement("td");
+            cell2_data = document.createTextNode(time);
+            cell2.appendChild(cell2_data);
+
+            cell2.classList.add("vacant"); 
+            
+            if (time == start_times[booking_index] && pending[booking_index] == 0) {
+              cell2.classList.add("not_vacant"); 
+              cell2.classList.remove("vacant");
+              writing_booking = true;
+            }
+            if (writing_booking == true) {
+              cell2.classList.add("not_vacant");
+              cell2.classList.remove("vacant");
+            }
+            if (time == start_times[booking_index] && pending[booking_index] == 1) {
+              cell2.classList.add("requested"); 
+              cell2.classList.remove("vacant");
+              writing_pending_booking = true;
+            }
+            if (writing_pending_booking == true) {
+              cell2.classList.add("requested"); 
+              cell2.classList.remove("vacant");
+            }
+            if (time == end_times[booking_index]) {
+              cell2.classList.add("vacant");
+              writing_booking = false;
+              writing_pending_booking = false;
+              booking_index++;
+            } 
+            
+            sched_row.appendChild(cell2);
+            schedule.appendChild(sched_row);
+            
+            // Increment minute and/or hour appropriately
+            if (minute == ":00")
+              minute = ":30";
+            else {
+              hour++;
+              minute = ":00";
+            }
+
+             // End if-else block
+          } // End for-loop
+        } // End create_schedule function
+      </script>
+      <table style="font-size:10px"> <script> create_schedule(0); </script> </table>
+      <table style="font-size:10px"> <script>// create_schedule("sched_body2", 11); </script> </table>
+      <table style="font-size:10px"> <script>// create_schedule("sched_body3", 14); </script> </table>
+      <table style="font-size:10px"> <script> //create_schedule("sched_body4", 17); </script> </table>
+      <script> fill_schedule(); </script>
+    </div>
+  </div>
+</section>
+
+<div id = "overlay">
+  <div id = "book_equipment">
+
+    <form id = "booking_form" class="booking_form" action="/submit_booking" method = "post" style = "background-color : white;">
+
+    <div class = "popup"> <span class = "popuptext" id = "empty_name_popup">Please choose a piece of equipment</span></div>
+    <div id = 'overlay_booking_date'      class = 'overlay_booking_date_style'>  <%= page_data.booking_date %> </div>
+    <div id = 'overlay_equipment_to_book' class = 'overlay_booking_date_style'>  <%= page_data.equipment_name %> </div> <br><br>
+
+    <input type = "text" name = "date_for_booking"      id = "date_for_booking"      value = "<%= page_data.booking_date %>"    style = "display: none;"> 
+    <input type = "text" name = "equipment_for_booking" id = "equipment_for_booking" value = "<%= page_data.equipment_name %>"  style = "display: none;"> 
+    <input type = "text" name = "booking_start_time"    id = "booking_start_time"    value = "time"      style = "display: none;">
+    <input type = "text" name = "booking_end_time"      id = "booking_end_time"      value = "time"      style = "display: none;">
+
+      Technician required? 
+      <input id = "technician" type = "radio" name = "technician" value = "0"> Yes
+      <input id = "technician"  type = "radio" name = "technician" value = "1"> No <br><br>
+        
+      Usage Mode
+      <select id = "usage_mode" name = "usage_mode" required="required">
+        <% for (var i = 0; i < usageMode.length; i++) { %>
+          <option><%= usageMode[i].modes %></option>
+        <% } %> 
+      </select><br><br>
+        
+      Project
+      <select id = "project" name="project">
+        <option> </option>
+        <% projects.forEach(function(project) { %>
+        <option> <%= project.projectName %> </option>
+        <% }); %>
+      </select><br><br>
+      
+      Funding Account
+      <select id = "funding_account" name="funding_account">
+        <% works_on.forEach(function(project) { %>
+          <% funds.forEach(function(account) { %>
+            <% if (project.projectName == account.projectName) { %>
+              <option> <%= account.accountNumber %></option>
+            <% } %>
+          <% }); %>
+        <% }); %>
+      </select>
+      
+      Description <input type = "text" id = "description" name = "description" value=""><br><br>
+
+      <% equipments.forEach(function(equipment) { %>
+        <% if (equipment.equipmentName == page_data.equipment_name && equipment.enableSensitive == 1) { %>
+          <div id = "request_notif"> You must submit a request for this piece of equipment </div>
+          <input id = "pending" name = "pending" value = "1" style = "display: none;">
+        <% } %>
+
+        <% if (equipment.equipmentName == page_data.equipment_name && equipment.enableSensitive == 0) { %>
+          <input id = "pending" name = "pending" value = "0" style = "display: none;">
+        <% } %>
+      <% }); %>
+      <button id = "submit_booking_button" class = "form_button"> Submit</button>
+
+      <input type = "Reset"  class = "form_button" name = "reset" value="Clear Form">
+      <div id = "close" onclick = "overlay_off()">Back</div>
+    </form>
+
+    <script> // Submit the booking and add it to the database (and verify the booking on server side)
+
+        $('#submit_booking_button').click(function() { 
+            $.ajax({                                    // create an AJAX call...
+                data: $(this).serialize(),              // get the form data
+                type: $(this).attr('method'),           // POST
+                url: $(this).attr('action'),            // Route (/index3)
+                success: function(response) {           // on success..
+                }
+            });
+        }); // end click (on submit) function 
+    </script>
+
+    <div class = "schedule_container_overlay">
+
+      <div id = "overlay_schedule_header">
+        <div id = "start_time"       class = "schedule_time" style = "display: inline-block;"> </div>
+        <div id = "booking_validity" class = "schedule_time" style = "display: none;">Valid</div>
+        <div class = "popup"> <span  class = "popuptext" id = "continuous_booking_popup">Booking must be continuous</span></div>
+        <div id = "end_time"         class = "schedule_time" style = "display: inline-block;"> </div>
+      </div><br>
+
+      <div id = "overlay_schedule">
+        <table> <tbody id = "booking_sched_body1"> </tbody> </table>
+        <table> <tbody id = "booking_sched_body2"> </tbody> </table>
+        <table> <tbody id = "booking_sched_body3"> </tbody> </table>
+        <table> <tbody id = "booking_sched_body4"> </tbody> </table>
+
+        <script> // Identical to the previous create_schedule function, but adds onClick functionality to each time slot
+          function create_schedule_book(start) {
+
+            var table_counter = 1;
+            var table_body = "booking_sched_body" + table_counter;
+            schedule = document.getElementById(table_body); // body of the calendar
+            schedule.innerHTML = "";
+            var i; var j;
+            var hour = start;
+            var minute = ":00";
+            
+            // Access hidden list of bookings and place the start and end times of each booking in separate arrays
+            var start_times = [];   
+            var end_times = [];
+            index = document.getElementById("index").innerHTML;
+            for (var i = 0; i < index; i++) {
+              booking = document.getElementById(i).innerHTML;        // Get full booking
+              booking_split = booking.split(" ");                    // Split by space
+              start_times.push(booking_split[10].replace(/^[0]+/g,"").slice(0, -3));   // Get start time from the datetime of the booking
+              end_times.push(booking_split[11].replace(/^[0]+/g,"").slice(0,-3));      // Get end time ' ' ' '
+            } // end
+            
+            console.log(start_times);
+            var booking_index = 0;
+            var writing_booking = false;
+
+            // Create the schedule 
+            for (i = 0; i < 48; i++) {
+
+              if (i > 0 && (i % 12) == 0) {    // If we have written 12 slots, start writing on the next column
+                table_counter++;
+                table_body = "booking_sched_body" + table_counter;     // Element name of the new table (column)
+                schedule = document.getElementById(table_body);
+                schedule.innerHTML = "";                               // Reset table content
+              } 
+              
+
+              var time = hour + minute;
+
+              var sched_row = document.createElement("tr");
+              cell1 = document.createElement("td");              // Create the cell that displays the time slot
+              cell1_data = document.createTextNode(time);
+              cell1.appendChild(cell1_data);
+              cell1.classList.add("schedule_data");  
+              sched_row.appendChild(cell1);
+
+              cell2 = document.createElement("td");              // Create the adjacent cell that shows if that time slot
+              cell2_data = document.createTextNode(time);        //     is vacant or not
+              cell2.appendChild(cell2_data);
+              
+              if (writing_booking == true) {                     // If this time slot is in the time range of a booking...
+                cell2.classList.add("not_vacant");               // --  mark the time slot as non-vacant
+              } else if (time == start_times[booking_index]) {   // If this time slot is the start time of a booking...
+                cell2.classList.add("not_vacant");               // --  mark the time slot as non-vacant
+                writing_booking = true;                          // --  boolean to know if we are writing a booking
+              } if (time == end_times[booking_index]) {          // If this time slot is the end time of a booking...
+                cell2.classList.add("vacant");                   // --  mark the time slot as vacant
+                writing_booking = false;                         // --  we are no longer writing a booking
+                booking_index++;                                                // --  iterate so we are ready to write the next booking
+              } else {
+                cell2.classList.add("vacant");                       
+              }
+             
+              if (!cell2.classList.contains("not_vacant")) { // Non vacant time slots cannot be selected
+                var toggle_on_click = function(cell) { // Perform various UI operations when a time slot is clicked on
+                  return function() {
+
+                    // Change the color of the clicked cell from green to blue (or vice versa)
+                    if (cell.classList.contains("vacant")) {
+                      cell.classList.remove("vacant");
+                      cell.classList.add("time_selected");
+                    } else {
+                      cell.classList.remove("time_selected");
+                      cell.classList.add("vacant");
+                    } // End if/else block
+
+                    // Dynamically display the start and end time of the user's booking based on selected time slots
+                    start_time = document.getElementById("start_time");
+                    end_time = document.getElementById("end_time");
+                    start_time_for_booking = document.getElementById("booking_start_time");
+                    end_time_for_booking = document.getElementById("booking_end_time");
+                    selected_times = document.querySelectorAll(".time_selected");                 // Retrieve all selected time slots
+                    selected_times_length = document.querySelectorAll(".time_selected").length;
+                    start_time.innerHTML = selected_times[0].innerHTML;                           // Set start time to first time slot
+                    var last_slot = selected_times[selected_times_length - 1].innerHTML;          // Get last time slot
+                    var end_time_to_write = "";
+                    var last_slot_hour = 0; var last_slot_minute = 0;
+
+                    // Format the time so that it displays the end time of the booking, not start time of the last time slot
+                    if (last_slot.charAt(1) == ":") {                                            
+                      last_slot_hour = parseInt(last_slot.substring(0,1)); last_slot_minute = parseInt(last_slot.substring(2,3));
+                    } else {
+                      last_slot_hour = parseInt(last_slot.substring(0,2)); last_slot_minute = parseInt(last_slot.substring(3,4));
+                    } if (last_slot_minute == 0) {
+                      end_time_to_write = last_slot_hour + ":30";
+                      end_time.innerHTML = end_time_to_write;
+                    } else {
+                      last_slot_hour++;
+                      end_time_to_write = last_slot_hour + ":00";
+                      end_time.innerHTML = end_time_to_write;
+                    } // End if/else block
+
+                    document.getElementById("booking_start_time").value = start_time.innerHTML; 
+                    document.getElementById("booking_end_time").value = end_time.innerHTML; 
+
+                    // Check if the selected time slots are consecutive. If not, display to the user that the booking is invalid
+                    var slot; var next;
+                    var slot_hour;   var next_slot_hour;
+                    var slot_minute; var next_slot_minute;
+                    var validity = document.getElementById("booking_validity");
+                    var popup = document.getElementById("continuous_booking_popup");
+                    
+                    if (selected_times_length > 1) {
+                      for(var i = 0; i < selected_times_length - 1; i++) {   // Iterate through sorted list of selected time slots
+                        slot = selected_times[i].innerHTML;                  // Current time slot
+                        next = selected_times[i + 1].innerHTML;              // Next time slot
+
+                        if (slot.charAt(1) == ":") {     // Breaking down times into separate variables for easy comparisons                    
+                          slot_hour = parseInt(slot.substring(0,1)); slot_minute = parseInt(slot.substring(2,3));
+                        } else {
+                          slot_hour = parseInt(slot.substring(0,2)); slot_minute = parseInt(slot.substring(3,4));
+                        } if (next.charAt(1) == ":") {
+                          next_slot_hour = parseInt(next.substring(0,1)); next_slot_minute = parseInt(next.substring(2,3));
+                        } else {
+                          next_slot_hour = parseInt(next.substring(0,2)); next_slot_minute = parseInt(next.substring(3,4));
+                        } // end if/else block
+
+                        if (slot_minute == 0) {                                               // If current time slot is on the hour...
+                          if (!(next_slot_hour == slot_hour && next_slot_minute == 3)) {      // Next time slot should be [same hour][:30]
+                            validity.innerHTML = "Invalid";
+                            popup.classList.add("show");          // Display pop-up telling the user that the booking must be continuous
+                            break; } 
+                        } else {                                                              // If current time slot is on the half hour
+                          if (!(next_slot_hour == slot_hour + 1 && next_slot_minute == 0)) {  // Next time slot should be [next hour][:00]
+                            validity.innerHTML = "Invalid";
+                            popup.classList.add("show");          // Display pop-up telling the user that the booking must be continuous
+                            break; }
+                        } // end if/else block
+                        
+                        if (i == selected_times_length - 2) {   // If we have iterated through all selected times and there were no problems 
+                          validity.innerHTML = "Valid";         // the booking is valid
+                          popup.classList.remove("show");
+                        } // End if/else block
+                      } // End for-loop
+                    } else {  // If there is only one time slot, the booking should be continuous (no warning should be displayed)
+                      popup.classList.remove("show");
+                    }
+                  };
+                }; // End toggle_on_click function
+                cell2.onclick = toggle_on_click(cell2);
+              }
+
+              sched_row.appendChild(cell2);
+              schedule.appendChild(sched_row);
+
+              // Increment minute and/or hour appropriately
+              if (minute == ":00")
+                minute = ":30";
+              else {
+                hour++;
+                minute = ":00";
+              } // End if-else block
+            } // End for-loop
+          } // End create_schedule function
+        </script>
+        <table style="font-size:10px"> <script> create_schedule_book(0); </script> </table>
+        <table style="font-size:10px"> <script> //create_schedule_book("booking_sched_body2", 11); </script> </table>
+        <table style="font-size:10px"> <script> //create_schedule_book("booking_sched_body3", 14); </script> </table>
+        <table style="font-size:10px"> <script> //create_schedule_book("booking_sched_body4", 17); </script> </table>
+      </div>
+    </div>
+
+  </div> 
+</div>
+
+</body>
+</html>

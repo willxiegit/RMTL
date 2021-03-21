@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMTL | Groups </title>
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="manager-users.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div id="logo">
+                <a href="manager-homepage"><img src="RMTL-logo.png"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="manager-homepage">Home</a></li>
+                    <li><a href="manager-booking">Bookings</a></li>
+                    <li><a href="manager-report-issues">Report Issues</a></li>
+                    <li><a href="manager-profile">Profile</a></li>
+                    <li><a href="manager-reports">Reports</a></li>
+                    <li><a href="manager-projects">Projects</a></li>
+                    <li><a class="current" href="manager-users">Users</a></li>
+                    <li><a href="manager-email">Emails</a></li>
+                    <li><a href="manager-logs">Logs</a></li>
+                    <li><a href="manager-equipment">Equipment</a></li>
+                    <li>
+                        <a>
+                            <form action="logout" method="get">
+                                <button type="submit" class="logout-btn">Logout</button>
+                            </form>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>     
+    </header>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="column1">
+                <h2>Groups</h2> 
+                <div class="button-container">
+                    <form action="create-group" method="get">
+                        <button type="submit" class="button-1">Create Group</button>
+                    </form>
+                    <button type="submit" class="button-1" name="action" value="edit-group" form="groupTable">Edit Group</button> 
+                    <button type="submit" class="button-1" name="action" value="delete-group" form="groupTable">Delete Group</button> 
+                </div>
+            </div>
+            <div class="column2">
+                <form action="modify-group" method="post" id="groupTable">
+                    <table>
+                        <colgroup>
+                            <col style="width:0.5%">
+                        </colgroup>
+                        <tr>
+                            <th> Select </th>
+                            <th> Group Name </th>
+                            <th> Approved Equipment </th>
+                        </tr>
+                        <% for (var i = 0; i < group.length; i++) { %>
+                            <tr> 
+                                <td><input type="checkbox" name="select" value=<%- JSON.stringify(group[i].groupName) %>></td>
+                                <td><%= group[i].groupName %></td>
+                                <td>
+                                    <select>
+                                        <% for (var j = 0; j < training.length; j++) { %>
+                                            <% if (training[j].groupName == group[i].groupName) { %>
+                                                <option selected="selected"><%= training[j].equipmentName %></option>
+                                            <% } %>
+                                        <% } %>
+                                    </select>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>  
+</body>
+</html>
